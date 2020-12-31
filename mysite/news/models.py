@@ -1,16 +1,22 @@
 from django.db import models
 
-class Reporter(models.Model):
+class Student(models.Model):
     full_name = models.CharField(max_length=70)
-
+    class Sex(models.IntegerChoices):
+        Male = 1,('male')
+        Female = 2,('female')
+        Other = 3,('other')
+    sex = models.IntegerField(choices = Sex.choices)
+        
     def __str__(self):
         return self.full_name
 
-class Article(models.Model):
-    pub_date = models.DateField()
-    headline = models.CharField(max_length=200)
-    content = models.TextField()
-    reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
+class Homework(models.Model):
+    commit_date = models.DateField(auto_now=True)
+    headline = models.CharField(max_length=200)#字段最长200,这里可以根据需要更改
+    attach = models.FileField()
+    remark = models.TextField()
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.headline
